@@ -33,6 +33,12 @@ function Home() {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center gap-12 px-4 py-16 ">
+        <Image
+          src={"/images/logo.png"}
+          height={400}
+          width={400}
+          alt="Suupala"
+        />
         <h1 className="text-center text-5xl font-extrabold tracking-tight text-black sm:text-[5rem]">
           Welcome <span className="text-red-400">{username}</span> to
           <span className="text-red-500">Suu</span>
