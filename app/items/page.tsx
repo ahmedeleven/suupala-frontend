@@ -14,15 +14,17 @@ function Items() {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/user/items`,
-        { itemName },
+        { item: itemName },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       setItems([...items, itemName]);
       setItem("");
+      //console.log(response);
       return response;
     } catch (error) {
+      //console.error(error);
       return error;
     }
   };
@@ -37,7 +39,9 @@ function Items() {
         }
       );
       setItems(items.filter((i) => i !== item));
+      console.log(response);
     } catch (error) {
+      console.error(error);
       return error;
     }
   };

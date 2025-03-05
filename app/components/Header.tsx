@@ -52,6 +52,13 @@ function Header() {
                   >
                     Items
                   </Link>
+                  <Link
+                    href="/generate"
+                    className={getLinkClass("/generate")}
+                    aria-current={pathname === "/generate" ? "page" : undefined}
+                  >
+                    Generate
+                  </Link>
                 </div>
               </div>
             </div>
