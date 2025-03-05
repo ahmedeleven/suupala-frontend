@@ -3,16 +3,51 @@ import { useEffect, useState } from "react";
 import { useNotLogged } from "../hooks/useCheckToken";
 import axios from "axios";
 import Cookies from "js-cookie";
+
 function Items() {
   useNotLogged();
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<string[]>([]);
+  const [item, setItem] = useState("");
+  const token = Cookies.get("token");
+
+  const addItem = async (itemName: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/user/items`,
+        { itemName },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setItems([...items, itemName]);
+      setItem("");
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const removeItem = async (item: string) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/user/items`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          data: { item },
+        }
+      );
+      setItems(items.filter((i) => i !== item));
+    } catch (error) {
+      return error;
+    }
+  };
 
   useEffect(() => {
     const getItems = async () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/user/items`,
         {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       return response.data;
@@ -36,13 +71,36 @@ function Items() {
       </header>
       <main>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              name="item"
+              id="item"
+              autoComplete="off"
+              value={item}
+              onChange={(e) => setItem(e.target.value)}
+              required
+              className="block rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-red-600 sm:text-sm/6"
+            />
+            <button
+              onClick={() => addItem(item)}
+              className="rounded-md bg-red-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus:outline-2 focus:-outline-offset-2 focus:outline-red-600"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           {items.map((item, index) => (
             <div
               key={index}
               className="inline-flex items-center rounded-full bg-red-700 px-3 py-1 text-sm font-semibold text-white mr-2 mb-2"
             >
               <span className="mr-2">{item}</span>
-              <button className="text-white hover:text-gray-800 focus:outline-none">
+              <button
+                onClick={() => removeItem(item)}
+                className="text-white hover:text-gray-800 focus:outline-none"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"

@@ -42,8 +42,8 @@ function Home() {
           alt="Suupala"
         />
         <h1 className="text-center text-5xl font-extrabold tracking-tight text-black sm:text-[5rem]">
-          Welcome <span className="text-red-400">{username}</span> to
-          <span className="text-red-500">Suu</span>
+          Welcome <span className="text-red-600">{username}</span> to
+          <span className="text-red-300">Suu</span>
           <span className="text-red-600">pala</span>!
         </h1>
       </div>
