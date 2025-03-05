@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { useIsLogged } from "../hooks/useCheckToken";
 function Register() {
+  useIsLogged();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

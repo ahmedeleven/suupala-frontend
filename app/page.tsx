@@ -3,8 +3,10 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNotLogged } from "./hooks/useCheckToken.js";
 
 function Home() {
+  useNotLogged();
   const token = Cookies.get("token");
   const [username, setUsername] = useState("");
 
@@ -32,7 +34,7 @@ function Home() {
 
   return (
     <>
-      <div className="flex min-h-screen flex-col items-center justify-center gap-12 px-4 py-16 ">
+      <div className="flex flex-col items-center justify-center gap-12 px-4 py-12 ">
         <Image
           src={"/images/logo.png"}
           height={400}

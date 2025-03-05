@@ -5,8 +5,10 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { useIsLogged } from "../hooks/useCheckToken";
 
 function Login() {
+  useIsLogged();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");

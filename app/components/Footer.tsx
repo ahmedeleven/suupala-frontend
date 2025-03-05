@@ -2,8 +2,8 @@ import Image from "next/image";
 
 function Footer() {
   return (
-    <footer className="flex  bottom-0 mt-20 w-full bg-gradient-to-r from-red-900 to-red-800 py-4 text-white">
-      <div className="flex-grow container mx-auto px-4">
+    <footer className="mt-auto  bottom-0 w-full bg-gradient-to-r from-red-900 to-red-800 py-4 text-white">
+      <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-center justify-between">
           <p className="flex text-xs">
             <span>
