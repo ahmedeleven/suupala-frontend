@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useNotLogged } from "../hooks/useCheckToken";
+import { useNotLogged, useCheckToken } from "../hooks/useCheckToken";
 
 interface Recipe {
   name: string;
@@ -13,6 +13,7 @@ interface Recipe {
 }
 
 function Generate() {
+  useCheckToken();
   useNotLogged();
   const token = Cookies.get("token");
   const [items, setItems] = useState<string[]>([]);

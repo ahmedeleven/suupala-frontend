@@ -1,14 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useNotLogged } from "../hooks/useCheckToken";
+import { useNotLogged, useCheckToken } from "../hooks/useCheckToken";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 function Items() {
-  useNotLogged();
   const [items, setItems] = useState<string[]>([]);
   const [item, setItem] = useState("");
   const token = Cookies.get("token");
+
+  useCheckToken();
+  useNotLogged();
 
   const addItem = async (itemName: string) => {
     try {
