@@ -18,6 +18,7 @@ function Generate() {
   const token = Cookies.get("token");
   const [items, setItems] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [generatedRecipe, setGeneratedRecipe] = useState<string>("");
   const [generatedRecipeObject, setGeneratedRecipeObject] =
     useState<Recipe | null>(null);
@@ -51,24 +52,31 @@ function Generate() {
   }, []);
 
   const generateRecipe = async () => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/recipes/generate`,
-      { items: selectedItems },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/recipes/generate`,
+        { items: selectedItems },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    let recipe: string =
-      response.data.result.response.candidates[0].content.parts[0].text;
+      let recipe: string =
+        response.data.result.response.candidates[0].content.parts[0].text;
 
-    if (recipe.startsWith("```json")) {
-      recipe = recipe.substring(7, recipe.length - 3); // Remove ```json and ```
+      if (recipe.startsWith("```json")) {
+        recipe = recipe.substring(7, recipe.length - 3); // Remove ```json and ```
+      }
+      //remove leading and trailing whitespace
+      recipe = recipe.trim();
+      console.log(recipe);
+      setGeneratedRecipe(recipe);
+      setGeneratedRecipeObject(JSON.parse(recipe));
+      return recipe;
+    } catch (error) {
+      return error;
+    } finally {
+      setIsLoading(false);
     }
-    //remove leading and trailing whitespace
-    recipe = recipe.trim();
-    console.log(recipe);
-    setGeneratedRecipe(recipe);
-    setGeneratedRecipeObject(JSON.parse(recipe));
-    return recipe;
   };
 
   return (
@@ -93,12 +101,21 @@ function Generate() {
               <span className="mr-2">{item}</span>
             </div>
           ))}
-          <button
-            onClick={generateRecipe}
-            className="flex  justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-          >
-            Generate
-          </button>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={generateRecipe}
+              className="flex  justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+            >
+              Generate
+            </button>
+            {isLoading ? (
+              <>
+                <span className="loader"></span>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
 
           {generatedRecipeObject && (
             <>
