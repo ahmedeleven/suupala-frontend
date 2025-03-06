@@ -3,10 +3,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 
 function Header() {
   const pathname = usePathname();
-  const token = Cookies.get("token");
+  const [token, setToken] = useState<String | null>();
+
+  useEffect(() => {
+    setToken(Cookies.get("token"));
+  }, []);
   const getLinkClass = (path: string) => {
     const baseClass = "rounded-md px-3 py-2 text-sm font-medium";
     const activeClass = "bg-gray-900 text-white";
@@ -36,7 +41,7 @@ function Header() {
                   <span className="text-red-200">pala</span>
                 </div>
               </Link>
-              <Link href="/home" className={getLinkClass("/")}>
+              <Link href="/" className={getLinkClass("/")}>
                 Home
               </Link>
               <Link href="/items" className={getLinkClass("/items")}>
