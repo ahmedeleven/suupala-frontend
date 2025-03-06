@@ -50,6 +50,9 @@ function Header() {
               <Link href="/generate" className={getLinkClass("/generate")}>
                 Generate
               </Link>
+              <Link href="/recipes" className={getLinkClass("/recipes")}>
+                Recipes
+              </Link>
             </div>
 
             {/* Right side auth button */}

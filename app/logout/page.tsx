@@ -9,6 +9,11 @@ function Logout() {
 
     router.push("/");
   }, []);
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      Logging out ...
+    </div>
+  );
 }
 
 export default Logout;
