@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNotLogged, useCheckToken } from "../hooks/useCheckToken";
+import { Finlandica } from "next/font/google";
 
 interface Recipe {
   name: string;
@@ -18,7 +19,9 @@ function Generate() {
   const token = Cookies.get("token");
   const [items, setItems] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [isGenerateLoading, setIsGenerateLoading] = useState<Boolean>(false);
+  const [isSaveLoading, setIsSaveLoading] = useState<Boolean>(false);
+  const [saveSuccess, setSaveSuccess] = useState<String>("");
   const [generatedRecipe, setGeneratedRecipe] = useState<string>("");
   const [generatedRecipeObject, setGeneratedRecipeObject] =
     useState<Recipe | null>(null);
@@ -52,7 +55,7 @@ function Generate() {
   }, []);
 
   const generateRecipe = async () => {
-    setIsLoading(true);
+    setIsGenerateLoading(true);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/recipes/generate`,
@@ -75,7 +78,26 @@ function Generate() {
     } catch (error) {
       return error;
     } finally {
-      setIsLoading(false);
+      setIsGenerateLoading(false);
+    }
+  };
+
+  const saveRecipe = async () => {
+    setIsSaveLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/recipes`,
+        generatedRecipeObject,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log(response);
+      setSaveSuccess("Recipe has been successfully saved");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    } finally {
+      setIsSaveLoading(false);
     }
   };
 
@@ -108,7 +130,7 @@ function Generate() {
             >
               Generate
             </button>
-            {isLoading ? (
+            {isGenerateLoading ? (
               <>
                 <span className="loader"></span>
               </>
@@ -140,9 +162,26 @@ function Generate() {
                   ))}
                 </ol>
               </div>
-              <button className="flex  justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
-                Save
-              </button>
+              <div className="flex items-center space-x-4 mt-4">
+                <button
+                  onClick={saveRecipe}
+                  className="flex  justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                >
+                  Save
+                </button>
+                {isSaveLoading ? (
+                  <>
+                    <span className="loader"></span>
+                  </>
+                ) : (
+                  <></>
+                )}
+                {saveSuccess ? (
+                  <>
+                    <span className="text-green-700">{saveSuccess}</span>
+                  </>
+                ) : null}
+              </div>
             </>
           )}
         </div>
