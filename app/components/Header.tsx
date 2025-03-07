@@ -11,7 +11,14 @@ function Header() {
 
   useEffect(() => {
     setToken(Cookies.get("token"));
-  }, []);
+
+    const handleRouteChange = () => {
+      const token = Cookies.get("token");
+      setToken(token);
+    };
+
+    handleRouteChange();
+  }, [pathname]);
   const getLinkClass = (path: string) => {
     const baseClass = "rounded-md px-3 py-2 text-sm font-medium";
     const activeClass = "bg-gray-900 text-white";
@@ -21,7 +28,7 @@ function Header() {
   };
   return (
     <>
-      <nav className="sticky top-0 flex bg-gradient-to-r from-red-900 to-red-800">
+      <nav className="sticky top-0 flex bg-gradient-to-r from-red-900 to-red-800 z-10">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side group */}

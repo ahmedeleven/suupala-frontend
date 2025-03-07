@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNotLogged, useCheckToken } from "../hooks/useCheckToken";
-import { Finlandica } from "next/font/google";
 
 interface Recipe {
   name: string;
@@ -22,7 +21,7 @@ function Generate() {
   const [isGenerateLoading, setIsGenerateLoading] = useState<Boolean>(false);
   const [isSaveLoading, setIsSaveLoading] = useState<Boolean>(false);
   const [saveSuccess, setSaveSuccess] = useState<String>("");
-  const [generatedRecipe, setGeneratedRecipe] = useState<string>("");
+  //const [generatedRecipe, setGeneratedRecipe] = useState<string>("");
   const [generatedRecipeObject, setGeneratedRecipeObject] =
     useState<Recipe | null>(null);
 
@@ -56,6 +55,8 @@ function Generate() {
 
   const generateRecipe = async () => {
     setIsGenerateLoading(true);
+    //setGeneratedRecipeObject(null);
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/recipes/generate`,
@@ -72,8 +73,9 @@ function Generate() {
       //remove leading and trailing whitespace
       recipe = recipe.trim();
       console.log(recipe);
-      setGeneratedRecipe(recipe);
+      //setGeneratedRecipe(recipe);
       setGeneratedRecipeObject(JSON.parse(recipe));
+      setSaveSuccess("");
       return recipe;
     } catch (error) {
       return error;
@@ -111,12 +113,16 @@ function Generate() {
         </div>
       </header>
       <main>
+        <h3 className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 text-xl text-gray-700">
+          Select items. The recipe created will use some or all of the items you
+          choose.
+        </h3>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           {items.map((item, index) => (
             <div
               key={index}
               onClick={() => toggleSelectedItem(item)}
-              className={`select-none inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2 ${
+              className={`cursor-pointer select-none inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2 ${
                 selectedItems.includes(item) ? "bg-green-700" : "bg-red-700"
               }`}
             >
@@ -126,7 +132,7 @@ function Generate() {
           <div className="flex items-center space-x-4">
             <button
               onClick={generateRecipe}
-              className="flex  justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              className="flex mt-6  justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
             >
               Generate
             </button>

@@ -72,36 +72,38 @@ function RecipeDetail() {
         </div>
       </header>
 
-      <div className="mt-8 mb-8 p-4 mx-auto bg-gray-100 rounded-md shadow-md">
-        <h3 className="text-2xl font-bold tracking-tight text-gray-900 mb-2">
-          Ingredients
-        </h3>
-        <ul className="list-disc list-inside mb-4">
-          {recipe?.ingredients.map((item, index) => (
-            <li className="text-base font-normal leading-relaxed" key={index}>
-              {item}
-            </li>
-          ))}
-        </ul>
-        <h3 className="mt-6 text-2xl font-bold tracking-tight text-gray-900 mb-2">
-          Instructions
-        </h3>
-        <ol className="list-decimal list-inside">
-          {recipe?.instructions.map((item, index) => (
-            <li className="text-base font-normal leading-relaxed" key={index}>
-              {item}
-            </li>
-          ))}
-        </ol>
-        <h3 className="mt-6 text-2xl font-bold tracking-tight text-gray-900 mb-2">
-          Difficulty
-        </h3>
-        <p>{recipe?.difficulty}</p>
-        <h3 className="mt-6 text-2xl font-bold tracking-tight text-gray-900 mb-2">
-          Preparation Time
-        </h3>
-        <p className="pt-0">{recipe?.prepTime}</p>
-      </div>
+      <nav className="mx-64">
+        <div className="mt-8 mb-8 p-4 mx-auto bg-gray-100 rounded-md shadow-md">
+          <h3 className="text-2xl font-bold tracking-tight text-gray-900 mb-2">
+            Ingredients
+          </h3>
+          <ul className="list-disc list-inside mb-4">
+            {recipe?.ingredients.map((item, index) => (
+              <li className="text-base font-normal leading-relaxed" key={index}>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <h3 className="mt-6 text-2xl font-bold tracking-tight text-gray-900 mb-2">
+            Instructions
+          </h3>
+          <ol className="list-decimal list-inside">
+            {recipe?.instructions.map((item, index) => (
+              <li className="text-base font-normal leading-relaxed" key={index}>
+                {item}
+              </li>
+            ))}
+          </ol>
+          <h3 className="mt-6 text-2xl font-bold tracking-tight text-gray-900 mb-2">
+            Difficulty
+          </h3>
+          <p>{recipe?.difficulty}</p>
+          <h3 className="mt-6 text-2xl font-bold tracking-tight text-gray-900 mb-2">
+            Preparation Time
+          </h3>
+          <p className="pt-0">{recipe?.prepTime}</p>
+        </div>
+      </nav>
     </>
   );
 }
