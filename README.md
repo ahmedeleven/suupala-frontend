@@ -6,7 +6,7 @@ A web application for generating and managing recipes using AI built with Next.j
 
 - 🔐 User authentication
 - 🤖 AI-powered recipe generation based on available ingredients
-- 📝 Recipe management (create, read, delete)
+- 📝 Recipe management (read, delete)
 - 🥗 Ingredient tracking
 - 🎯 Responsive design
 
@@ -38,7 +38,7 @@ git clone https://github.com/ahmedeleven/suupala-frontend.git
 npm install
 ```
 
-3. Create a `.env.local` file in the root directory with:
+3. Create a `.env` file in the root directory with:
 
 ```
 NEXT_PUBLIC_API_SERVER_URL=your_backend_url
